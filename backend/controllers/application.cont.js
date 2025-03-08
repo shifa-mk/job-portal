@@ -19,7 +19,8 @@ if(existingApplication){
         success:false
     });
 }
-const job =await Job.findOne(jobId);
+const job = await Job.findById(jobId); // ✅ Correct
+
 if(!job){
     return res.status(400).json({
         message:"Job not found",
