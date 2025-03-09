@@ -27,7 +27,7 @@ const Login = () => {
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     }
-    console.log("API URL:", import.meta.env.VITE_API_URL);
+   // console.log("API URL:", import.meta.env.VITE_API_URL);
 
 
     

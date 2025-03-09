@@ -2,20 +2,20 @@ import { useEffect, useState } from 'react';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import { useDispatch } from 'react-redux';
-import { setSearchedQuery } from '@/redux/JobSlice';
+import { setSearchedQuery } from '@/redux/jobSlice';
 
 const filterData = [
     {
         filterType: "Location",
-        array: ["Delhi NCR", "Bangalore", "Hyderabad", "Pune", "Mumbai"]
+        array: ["Delhi", "Bangalore", "Hyderabad", "Pune", "Mumbai"]
     },
     {
         filterType: "Industry",
-        array: ["Frontend Developer", "Backend Developer", "FullStack Developer"]
+        array: ["Frontend Developer", "Backend Developer", "FullStack Developer",]
     },
     {
         filterType: "Salary",
-        array: ["0-40k", "42-1lakh", "1lakh to 5lakh"]
+        array: ["0-50k", "50k-1lakh", "1lakh to 5lakh","5lakh to 10lakh","10lakh to 20 lakh"]
     },
 ];
 

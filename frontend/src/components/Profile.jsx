@@ -1,4 +1,4 @@
-import  { useState } from 'react'
+import  { useEffect, useState } from 'react'
 import Navbar from './shared/Navbar'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
@@ -16,8 +16,11 @@ const isResume = true;
 const Profile = () => {
     useGetAppliedJobs();
     const [open, setOpen] = useState(false);
-    const {user} = useSelector(store=>store.auth);
-
+    const { user } = useSelector((store) => store.auth);
+    useEffect(() => {
+      console.log("Profile page loaded, user:", user);
+    }, [user]);
+    
     return (
         <div>
             <Navbar />
@@ -28,7 +31,8 @@ const Profile = () => {
                             <AvatarImage src="https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg" alt="profile" />
                         </Avatar>
                         <div>
-                            <h1 className='font-medium text-xl'>{user?.fullname}</h1>
+                        <h1 className='font-medium text-xl'>{user?.fullName || user?.fullname}</h1>
+
                             <p>{user?.profile?.bio}</p>
                         </div>
                     </div>

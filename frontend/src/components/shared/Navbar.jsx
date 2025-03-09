@@ -9,9 +9,16 @@ import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { setUser } from '@/redux/auth.slice'
 import { toast } from 'sonner'
+import { useEffect } from 'react'
 
 const Navbar = () => {
-    const { user } = useSelector(store => store.auth);
+    const { user } = useSelector((store) => store.auth);
+    console.log("Persisted User:", user);
+    
+    useEffect(() => {
+      console.log("Navbar mounted, current user:", user);
+    }, [user]);
+    
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
