@@ -1,4 +1,4 @@
-import { setAllAdminJobs } from '@/redux/jobSliceobSlice'
+import { setAllAdminJobs } from '@/redux/jobSlice'
 import { JOB_API_END_POINT } from '@/utils/constant'
 import axios from 'axios'
 import { useEffect } from 'react'
@@ -18,7 +18,7 @@ const useGetAllAdminJobs = () => {
             }
         }
         fetchAllAdminJobs();
-    },[])
+    },[dispatch])
 }
 
 export default useGetAllAdminJobs
