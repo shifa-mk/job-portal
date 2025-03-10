@@ -20,7 +20,10 @@ const corsOption = {
     credentials: true
 }
 
-app.use(cors(corsOption));
+
+
+app.use(cors({corsOption}));
+
 
 const PORT = process.env.PORT || 3000;
 
