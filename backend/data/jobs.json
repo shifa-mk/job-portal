@@ -1,0 +1,38 @@
+[
+    {
+        "title": "Software Engineer",
+        "description": "Develop and maintain software solutions for our web platform.",
+        "requirements": "Bachelor's in Computer Science and 2+ years of experience in software development.",
+        "salary": 85000,
+        "location": "San Francisco, CA",
+        "jobType": "Full-Time",
+        "experience": "2+ years",
+        "position": "Junior Software Engineer",
+        "company": "60d0fe4f5311236168a109ca",
+        "created_by": "60d0fe4f5311236168a109cb"
+    },
+    {
+        "title": "Data Scientist",
+        "description": "Analyze large datasets to uncover trends and insights.",
+        "requirements": "Master's in Data Science, proficiency in Python and SQL, and 3+ years of industry experience.",
+        "salary": 95000,
+        "location": "New York, NY",
+        "jobType": "Full-Time",
+        "experience": "3+ years",
+        "position": "Data Scientist",
+        "company": "60d0fe4f5311236168a109cc",
+        "created_by": "60d0fe4f5311236168a109cb"
+    },
+    {
+        "title": "Front-End Developer",
+        "description": "Implement engaging and responsive UI features using React.",
+        "requirements": "Solid experience with JavaScript, React, and modern CSS techniques.",
+        "salary": 80000,
+        "location": "Austin, TX",
+        "jobType": "Contract",
+        "experience": "2+ years",
+        "position": "Front-End Developer",
+        "company": "60d0fe4f5311236168a109cd",
+        "created_by": "60d0fe4f5311236168a109cb"
+    }
+]
