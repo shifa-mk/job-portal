@@ -29,6 +29,8 @@ const Navbar = () => {
       toast.error(error.response.data.message);
     }
   };
+ 
+  
   return (
     <div className="bg-white">
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16">

@@ -70,8 +70,12 @@ const appRouter = createBrowserRouter([
       path:"/admin/jobs/:id/applicants",
       element:<ProtectedRoute><Applicants/></ProtectedRoute> 
     },
-  
-  
+    {
+      future: {
+        v7_startTransition: false,
+        v7_relativeSplatPath: false
+      }
+    }
   
 ])
 function App() {
@@ -80,5 +84,6 @@ function App() {
     
     </>);
 }
+console.log(Home); // Should NOT be undefined
 
 export default App;

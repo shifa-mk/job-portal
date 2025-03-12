@@ -28,24 +28,22 @@ export const registerCompany =async(req,res)=>{
      console.log(error);
     }
 }
-export const getCompany =async (req,res)=>{
-    try{
-        const userId=req.id;
-        const companies =await Company.find({userId});
-        if(!companies){
-            return res.status(400).json({
-                message:"companies not found ",
-                success:false
-            }); 
-        } return res.status(201).json({
-           
-            companies,
-            success:true
-        }); 
-    }catch(error){
-        console.log(error); 
+export const getAllCompanies = async (req, res) => {
+    try {
+      const companies = await Company.find(); // Fetch all companies
+      return res.status(200).json({
+        companies,
+        success: true
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Failed to fetch companies",
+        success: false
+      });
     }
-}
+  };
+  
 export const getCompanyById =async (req,res)=>{
     try{
         const companyId=req.params.id;
