@@ -1,7 +1,15 @@
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { Avatar, AvatarImage } from "../ui/avatar";
-import { LogOut, User2 } from "lucide-react";
+import {
+  LogOut,
+  User2,
+  Briefcase,
+  Building2,
+  Clock,
+  Bell,
+  LayoutDashboard,
+} from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -9,6 +17,14 @@ import { USER_API_END_POINT } from "@/utils/constant";
 import { setUser } from "@/redux/auth.slice";
 import { toast } from "sonner";
 import { useState, useRef, useEffect } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 // Helper function to get Cloudinary URL
 const getCloudinaryUrl = (publicId) =>
@@ -77,81 +93,207 @@ const Navbar = () => {
       : getCloudinaryUrl(user?.profile?.avatar)
     : null;
 
-  return (
-    <nav className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-        <Link
-          to="/"
-          className="font-bold text-xl"
-        >
-          Job Portal
-        </Link>
-        <div className="flex items-center gap-4">
-          {user ? (
-            <div
-              className="relative"
-              ref={dropdownRef}
-            >
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center space-x-2 hover:text-blue-600 focus:outline-none"
-              >
-                <Avatar className="h-8 w-8">
-                  {avatarUrl ? (
-                    <AvatarImage
-                      src={avatarUrl}
-                      alt={user.name || "User"}
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-blue-500 flex items-center justify-center text-white font-medium">
-                      {user.name ? user.name.charAt(0).toUpperCase() : "U"}
-                    </div>
-                  )}
-                </Avatar>
-                <span>{user.name}</span>
-              </button>
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get(`${USER_API_END_POINT}/logout`, {
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        dispatch(setUser(null));
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
 
-              {/* Dropdown Menu */}
-              {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
-                  <Link
-                    to="/profile"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Profile
-                  </Link>
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      setIsOpen(false);
-                    }}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
+  const recruiterLinks = [
+    { to: "/admin/dashboard", label: "Dashboard", icon: Briefcase },
+    { to: "/admin/companies", label: "Companies", icon: Building2 },
+    { to: "/admin/jobs", label: "Jobs", icon: Briefcase },
+  ];
+
+  const candidateLinks = [
+    { to: "/", label: "Home", icon: null },
+    { to: "/jobs", label: "Jobs", icon: Briefcase },
+    { to: "/browse", label: "Browse", icon: Clock },
+  ];
+
+  return (
+    <div className="bg-white shadow-sm">
+      <div className="flex items-center justify-between mx-auto max-w-7xl h-16 px-4">
+        {/* Logo */}
+        <div>
+          <Link
+            to="/"
+            className="text-2xl font-bold"
+          >
+            Job<span className="text-[#F83002]">Portal</span>
+          </Link>
+        </div>
+
+        {/* Center Navigation Links */}
+        <div className="absolute left-1/2 transform -translate-x-1/2">
+          <ul className="flex font-medium items-center gap-8">
+            {user && user.role === "recruiter"
+              ? recruiterLinks.map((link) => (
+                  <li key={link.to}>
+                    <Link
+                      to={link.to}
+                      className="flex items-center gap-2 hover:text-[#F83002] transition-colors"
+                    >
+                      {link.icon && <link.icon className="w-4 h-4" />}
+                      {link.label}
+                    </Link>
+                  </li>
+                ))
+              : candidateLinks.map((link) => (
+                  <li key={link.to}>
+                    <Link
+                      to={link.to}
+                      className="flex items-center gap-2 hover:text-[#F83002] transition-colors"
+                    >
+                      {link.icon && <link.icon className="w-4 h-4" />}
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+          </ul>
+        </div>
+
+        {/* Right Side Actions */}
+        <div className="flex items-center gap-4">
+          {!user ? (
+            <div className="flex items-center gap-2">
+              <Link to="/login">
+                <Button variant="outline">Login</Button>
+              </Link>
+              <Link to="/signup">
+                <Button className="bg-[#6A38C2] hover:bg-[#5b30a6]">
+                  Signup
+                </Button>
+              </Link>
             </div>
           ) : (
-            <>
-              <Link
-                to="/login"
-                className="hover:text-blue-600"
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="hover:text-blue-600"
-              >
-                Signup
-              </Link>
-            </>
+            <div className="flex items-center gap-4">
+              {/* Notifications Popover - Optional */}
+              <Popover>
+                <PopoverTrigger>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                  >
+                    <Bell className="h-5 w-5" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <div className="space-y-2">
+                    <h4 className="font-medium">Notifications</h4>
+                    <div className="text-sm text-muted-foreground">
+                      No new notifications
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+
+              {/* User Profile Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-10 w-10 rounded-full"
+                  >
+                    <Avatar className="h-10 w-10">
+                      {avatarUrl ? (
+                        <AvatarImage
+                          src={avatarUrl}
+                          alt={user?.fullname || "User"}
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center bg-primary text-primary-foreground">
+                          {user?.fullname?.charAt(0) || "U"}
+                        </div>
+                      )}
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-56"
+                  align="end"
+                  forceMount
+                >
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {user?.fullname}
+                      </p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  {user?.role === "student" && (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          to="/profile"
+                          className="flex items-center"
+                        >
+                          <User2 className="mr-2 h-4 w-4" />
+                          <span>Profile</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          to="/applications"
+                          className="flex items-center"
+                        >
+                          <Briefcase className="mr-2 h-4 w-4" />
+                          <span>My Applications</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
+                  {user?.role === "recruiter" && (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          to="/admin/dashboard"
+                          className="flex items-center"
+                        >
+                          <LayoutDashboard className="mr-2 h-4 w-4" />
+                          <span>Dashboard</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          to="/admin/companies"
+                          className="flex items-center"
+                        >
+                          <Building2 className="mr-2 h-4 w-4" />
+                          <span>Companies</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="text-red-600 focus:text-red-600"
+                    onClick={logoutHandler}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           )}
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 
