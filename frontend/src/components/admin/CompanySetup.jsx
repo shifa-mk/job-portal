@@ -65,15 +65,17 @@ const CompanySetup = () => {
     }
 
     useEffect(() => {
-        setInput({
-            name: singleCompany.name || "",
-            description: singleCompany.description || "",
-            website: singleCompany.website || "",
-            location: singleCompany.location || "",
-            file: singleCompany.file || null
-        })
-    },[singleCompany]);
-
+        if (singleCompany) {
+            setInput({
+                name: singleCompany?.name || "",
+                description: singleCompany?.description || "",
+                website: singleCompany?.website || "",
+                location: singleCompany?.location || "",
+                file: singleCompany?.file || null
+            });
+        }
+    }, [singleCompany]);
+    
     return (
         <div>
             <Navbar />
@@ -132,9 +134,10 @@ const CompanySetup = () => {
                             />
                         </div>
                     </div>
-                    {
-                        loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Update</Button>
-                    }
+                    <Button type="submit" disabled={loading || !singleCompany} className="w-full my-4">
+    {loading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : "Update"}
+</Button>
+
                 </form>
             </div>
 

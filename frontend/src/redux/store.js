@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authSlice from "./auth.slice";
 import jobSlice from "./jobSlice";
 import {
-    /*persistStore,*/
+    persistStore,
     persistReducer,
     FLUSH,
     REHYDRATE,
@@ -14,6 +14,7 @@ import {
 import storage from 'redux-persist/lib/storage'
 import companySlice from "./companySlice";
 import applicationSlice from "./applicationSlice";
+
 
 const persistConfig = {
     key: 'root',
@@ -40,4 +41,6 @@ const store = configureStore({
             },
         }),
 });
+export const persistor = persistStore(store); // Ensure this line is active
+
 export default store;

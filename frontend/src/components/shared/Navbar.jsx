@@ -120,7 +120,7 @@ const Navbar = () => {
     { to: "/jobs", label: "Jobs", icon: Briefcase },
     { to: "/browse", label: "Browse", icon: Clock },
   ];
-
+  
   return (
     <div className="bg-white shadow-sm">
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16 px-4">

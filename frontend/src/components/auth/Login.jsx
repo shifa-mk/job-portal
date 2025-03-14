@@ -34,14 +34,16 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+  
     try {
       dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
         headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+        withCredentials: true, // Ensure cookies are included
       });
-
+  
+      console.log("Set-Cookie header:", res.headers); // Debug the Set-Cookie response
+  
       if (res?.data?.success) {
         dispatch(setUser(res.data.user));
         navigate("/");
@@ -56,7 +58,7 @@ const Login = () => {
       dispatch(setLoading(false));
     }
   };
-
+  
   useEffect(() => {
     if (user) {
       navigate("/");
