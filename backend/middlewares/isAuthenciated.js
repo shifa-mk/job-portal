@@ -23,6 +23,7 @@ export const isAuthenticated = async (req, res, next) => {
 
     // Find user and attach to request (excluding password)
     req.user = await User.findById(decoded.userId).select("-password");
+    req.id = decoded.userId; // Add this line to attach userId
     if (!req.user) {
       return res.status(404).json({
         success: false,

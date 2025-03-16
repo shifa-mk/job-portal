@@ -60,24 +60,6 @@ const Login = () => {
   };
   
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get(`${USER_API_END_POINT}/me`, {
-          withCredentials: true,
-        });
-        if (res?.data?.user) {
-          dispatch(setUser(res.data.user));
-        }
-      } catch (error) {
-        console.error("User validation failed:", error);
-        dispatch(setUser(null));
-      }
-    };
-
-    fetchUser(); // Always check user once on load
-  }, [dispatch]); // No "user" dependency to prevent infinite loop
-
-  useEffect(() => {
     if (user) {
       navigate("/");
     }
