@@ -7,38 +7,55 @@ import { setSearchedQuery } from '@/redux/jobSlice';
 const filterData = [
     {
         filterType: "Location",
+        key: "location",
         array: ["Delhi", "Bangalore", "Hyderabad", "Pune", "Mumbai"]
     },
     {
         filterType: "Industry",
-        array: ["Frontend Developer", "Backend Developer", "FullStack Developer",]
+        key: "industry",
+        array: ["Frontend Developer", "Backend Developer", "FullStack Developer"]
     },
     {
         filterType: "Salary",
-        array: ["0-50k", "50k-1lakh", "1lakh to 5lakh","5lakh to 10lakh","10lakh to 20 lakh"]
+        key: "salary",
+        array: ["0-50k", "50k-1L", "1L-5L", "5L-10L", "10L-20L"]
     },
 ];
 
 const FilterCard = () => {
-    const [selectedValue, setSelectedValue] = useState('');
+    const [selectedFilters, setSelectedFilters] = useState({
+        location: "",
+        industry: "",
+        salary: ""
+    });
+
     const dispatch = useDispatch();
 
-    const changeHandler = (value) => {
-        setSelectedValue(value);
+    const changeHandler = (filterKey, value) => {
+        setSelectedFilters((prevFilters) => ({
+            ...prevFilters,
+            [filterKey]: value.trim()  // Ensure no extra spaces
+        }));
     };
 
     useEffect(() => {
-        dispatch(setSearchedQuery(selectedValue));
-    }, [selectedValue, dispatch]);
+        if (Object.values(selectedFilters).some(val => val !== "")) {
+            console.log("Updated Filters (Redux):", selectedFilters);
+            dispatch(setSearchedQuery(selectedFilters));
+        }
+    }, [selectedFilters, dispatch]);
 
     return (
         <div className='w-full bg-white p-3 rounded-md'>
             <h1 className='font-bold text-lg'>Filter Jobs</h1>
             <hr className='mt-3' />
-            <RadioGroup value={selectedValue} onValueChange={changeHandler}>
-                {filterData.map((data, index) => (
-                    <div key={index}>
-                        <h1 className='font-bold text-lg'>{data.filterType}</h1>
+            {filterData.map((data, index) => (
+                <div key={index}>
+                    <h1 className='font-bold text-lg mt-3'>{data.filterType}</h1>
+                    <RadioGroup 
+                        value={selectedFilters[data.key] || ""} 
+                        onValueChange={(value) => changeHandler(data.key, value)}
+                    >
                         {data.array.map((item, idx) => {
                             const itemId = `id${index}-${idx}`;
                             return (
@@ -48,9 +65,9 @@ const FilterCard = () => {
                                 </div>
                             );
                         })}
-                    </div>
-                ))}
-            </RadioGroup>
+                    </RadioGroup>
+                </div>
+            ))}
         </div>
     );
 };

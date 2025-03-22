@@ -38,7 +38,7 @@ const Login = () => {
     try {
       dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
-        headers: { "Content-Type": "application/json" },
+       headers: { "Content-Type": "application/json" },
         withCredentials: true, // Ensure cookies are included
       });
   

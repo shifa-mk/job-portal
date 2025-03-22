@@ -24,12 +24,12 @@ const CompaniesTable = () => {
   }, [companies, searchCompanyByText]);
 
   return (
-    <div>
-      <Table>
+    <div className="table-container">
+      <Table className="table-auto w-full">
         <TableCaption>A list of your recently registered companies</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>Logo</TableHead>
+            <TableHead className="w-20">Logo</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Date</TableHead>
             <TableHead className="text-right">Action</TableHead>
@@ -40,8 +40,12 @@ const CompaniesTable = () => {
             filterCompany.map((company) => (
               <TableRow key={company?._id}>
                 <TableCell>
-                  <Avatar>
-                    <AvatarImage src={company?.logo || '/default-logo.png'} alt={company?.name || 'Company logo'} />
+                  <Avatar className="w-10 h-10">
+                    <AvatarImage 
+                      src={company?.logo || '/default-logo.png'} 
+                      alt={company?.name || 'Company logo'} 
+                      className="object-contain w-full h-full"
+                    />
                   </Avatar>
                 </TableCell>
                 <TableCell>{company?.name || 'N/A'}</TableCell>

@@ -14,7 +14,9 @@ import useGetCompanyById from '@/components/hooks/useGetCompanyById'
 const CompanySetup = () => {
     const params = useParams();
     useGetCompanyById(params.id);
+    
     const [input, setInput] = useState({
+        
         name: "",
         description: "",
         website: "",
@@ -63,9 +65,12 @@ const CompanySetup = () => {
             setLoading(false);
         }
     }
+    console.log("Company ID:", params.id);
 
     useEffect(() => {
         if (singleCompany) {
+            
+    console.log("singleCompany:", singleCompany);
             setInput({
                 name: singleCompany?.name || "",
                 description: singleCompany?.description || "",

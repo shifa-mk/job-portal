@@ -58,7 +58,7 @@ const Navbar = () => {
     }
   }, []);
 
-  const handleLogout = async () => {
+  /*const handleLogout = async () => {
     try {
       const res = await axios.get(`${USER_API_END_POINT}/logout`, {
         withCredentials: true,
@@ -72,7 +72,7 @@ const Navbar = () => {
       console.error("Logout failed:", error);
       toast.error(error.response.data.message);
     }
-  };
+  };*/
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -246,26 +246,18 @@ const Navbar = () => {
                           <span>Profile</span>
                         </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link
-                          to="/applications"
-                          className="flex items-center"
-                        >
-                          <Briefcase className="mr-2 h-4 w-4" />
-                          <span>My Applications</span>
-                        </Link>
-                      </DropdownMenuItem>
+                     
                     </>
                   )}
                   {user?.role === "recruiter" && (
                     <>
                       <DropdownMenuItem asChild>
                         <Link
-                          to="/admin/dashboard"
+                          to="/admin/jobs"
                           className="flex items-center"
                         >
                           <LayoutDashboard className="mr-2 h-4 w-4" />
-                          <span>Dashboard</span>
+                          <span>Jobs</span>
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>

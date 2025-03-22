@@ -1,9 +1,14 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
+
+
+
 export const isAuthenticated = async (req, res, next) => {
   try {
     // Ensure token is extracted from cookies
+    console.log("Cookies Received in Backend:", req.cookies);
+
     const token = req.cookies?.token;
     if (!token) {
       return res.status(401).json({
@@ -30,6 +35,7 @@ export const isAuthenticated = async (req, res, next) => {
         message: "User not found",
       });
     }
+    console.log("req.id:", req.id);
 
     next(); // Proceed to next middleware or route handler
   } catch (error) {

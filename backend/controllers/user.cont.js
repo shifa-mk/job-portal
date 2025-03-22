@@ -79,11 +79,11 @@ export const login = async (req, res) => {
     const tokenData = {
       userId: user._id,
     };
-    const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
+
+    const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
 
-    // Create a separate user object for response
     const userResponse = {
       _id: user._id,
       fullname: user.fullname,
@@ -93,21 +93,24 @@ export const login = async (req, res) => {
       profile: user.profile,
     };
 
-    res
-      .status(200)
-      .cookie("token", token, {
-        maxAge: 1 * 60 * 60 * 1000, // 1 hour
-        httpOnly: true,
-        sameSite: "strict",
-        secure: process.env.NODE_ENV === "production",
-      })
-      .json({
-        message: `Welcome back ${user.fullname}`,
-        user: userResponse,
-        success: true,
-      });
+    // 🔥 Improved Cookie Setting
+    res.cookie("token", token, {
+      maxAge: 60 * 60 * 1000, // 1 hour
+      httpOnly: true, // Secure against XSS attacks
+      sameSite: "lax", // Adjust based on frontend-backend setup
+      secure: process.env.NODE_ENV === "production", // Set `true` in production (HTTPS)
+    });
+
+    console.log("Token set in cookie:", token); // Debugging log
+
+    return res.status(200).json({
+      message: `Welcome back ${user.fullname}`,
+      user: userResponse,
+      success: true,
+    });
+
   } catch (error) {
-    console.error(error);
+    console.error("Login error:", error);
     return res.status(500).json({
       message: "An error occurred during login.",
       success: false,
