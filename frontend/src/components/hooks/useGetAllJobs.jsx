@@ -13,7 +13,7 @@ const useGetAllJobs = () => {
       try {
         const url = `${JOB_API_END_POINT}/get?keyword=${searchedQuery || ""}`;
         console.log("Fetching jobs from:", url);
-        const res = await axios.get(url, { withCredentials: true });
+        const res = await axios.get(url); // Removed withCredentials
         console.log("API response:", res.data);
         if (res.data.success) {
           dispatch(setAllJobs(res.data.jobs));
@@ -21,7 +21,10 @@ const useGetAllJobs = () => {
           console.warn("Response success flag false:", res.data);
         }
       } catch (error) {
-        console.error("Error fetching jobs:", error);
+        console.error(
+          "Error fetching jobs:",
+          error?.response?.data?.message || error.message
+        );
       }
     };
     fetchAllJobs();

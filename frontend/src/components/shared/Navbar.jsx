@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { Avatar, AvatarImage } from "../ui/avatar";
