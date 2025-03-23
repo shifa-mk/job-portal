@@ -22,6 +22,9 @@ const AdminJobsTable = () => {
         });
         setFilterJobs(filteredJobs);
     }, [allAdminJobs, searchJobByText]);
+ 
+   
+console.log('Job Data:', allAdminJobs);
 
     return (
         <div className="table-container">
@@ -38,7 +41,8 @@ const AdminJobsTable = () => {
                 <TableBody>
                     {filterJobs?.map((job) => (
                         <TableRow key={job._id}>
-                            <TableCell>{job?.company?.name}</TableCell>
+                            <TableCell>{job?.company?.name || 'N/A'}</TableCell>
+
                             <TableCell>{job?.title}</TableCell>
                             <TableCell>{job?.createdAt.split("T")[0]}</TableCell>
                             <TableCell className="text-right cursor-pointer">

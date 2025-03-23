@@ -22,7 +22,9 @@ const CompaniesTable = () => {
 
     setFilterCompany(filteredCompany);
   }, [companies, searchCompanyByText]);
+  console.log('Company Data:', companies);
 
+  
   return (
     <div className="table-container">
       <Table className="table-auto w-full">
@@ -41,11 +43,13 @@ const CompaniesTable = () => {
               <TableRow key={company?._id}>
                 <TableCell>
                   <Avatar className="w-10 h-10">
-                    <AvatarImage 
-                      src={company?.logo || '/default-logo.png'} 
-                      alt={company?.name || 'Company logo'} 
+                    <AvatarImage
+                      src={company?.logo ? company.logo : '/default-logo.png'}
+                      alt={company?.name || 'Company logo'}
+                      onError={(e) => e.target.src = '/default-logo.png'}
                       className="object-contain w-full h-full"
                     />
+
                   </Avatar>
                 </TableCell>
                 <TableCell>{company?.name || 'N/A'}</TableCell>

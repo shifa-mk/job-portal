@@ -38,26 +38,27 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  useEffect(() => {
+useEffect(() => {
     const verifySession = async () => {
-      try {
-        const res = await axios.get(`${USER_API_END_POINT}/verify`, {
-          withCredentials: true,
-        });
-        if (!res.data.success) {
-          dispatch(setUser(null));
-          navigate("/login");
+        try {
+            const res = await axios.get(`${USER_API_END_POINT}/verify`, {
+                withCredentials: true,
+            });
+            if (!res.data.success) {
+                dispatch(setUser(null));
+                navigate("/login");
+            }
+        } catch (error) {
+            dispatch(setUser(null));
+            navigate("/login");
         }
-      } catch (error) {
-        dispatch(setUser(null));
-        navigate("/login");
-      }
     };
 
     if (user) {
-      verifySession();
+        verifySession();
     }
-  }, []);
+}, []);
+
 
   /*const handleLogout = async () => {
     try {
