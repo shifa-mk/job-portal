@@ -1,48 +1,64 @@
-import {Company} from "../models/company.model.js";
-export const registerCompany =async(req,res)=>{
-    try{
-        const{companyName}= req.body;
-        if(!companyName){
+
+import { Company } from "../models/company.model.js";
+
+export const registerCompany = async (req, res) => {
+    try {
+        const { companyName, description, website, location, logo } = req.body;  // Add logo
+        if (!companyName) {
             return res.status(400).json({
-                message:"company name is required",
-                success:false
+                message: "Company name is required",
+                success: false
             });
         }
-        let company =await Company.findOne({name:companyName});
-        if(company){
+
+        let company = await Company.findOne({ name: companyName });
+        if (company) {
             return res.status(400).json({
-                message:"you caan't register same company ",
-                success:false
-            }); 
-        };
-        company=await Company.create({
-            name:companyName,
-            userId:req.id
+                message: "Company already exists",
+                success: false
+            });
+        }
+
+        company = await Company.create({
+            name: companyName,
+            description,
+            website,
+            location,
+            logo, // Save logo
+            userId: req.id
         });
+
         return res.status(201).json({
-            message:"company registered successfully.   ",
+            message: "Company registered successfully",
             company,
-            success:true
-        }); 
-    }catch(error){
-     console.log(error);
+            success: true
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Server error",
+            success: false
+        });
     }
-}
+};
+
 export const getAllCompanies = async (req, res) => {
     try {
-      const companies = await Company.find(); // Fetch all companies
-      return res.status(200).json({
-        companies,
-        success: true
-      });
+        const companies = await Company.find().select('name description website location logo'); // Include logo
+        return res.status(200).json({
+            companies,
+            success: true
+        });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Failed to fetch companies",
-        success: false
-      });
+        console.error(error);
+        return res.status(500).json({
+            message: "Failed to fetch companies",
+            success: false
+        });
     }
-  };
+};
+
   
 export const getCompanyById =async (req,res)=>{
     try{

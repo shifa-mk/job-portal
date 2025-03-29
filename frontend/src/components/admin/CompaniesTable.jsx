@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { Avatar, AvatarImage } from '../ui/avatar';
+
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Edit2, MoreHorizontal } from 'lucide-react';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,9 @@ const CompaniesTable = () => {
   const [filterCompany, setFilterCompany] = useState([]);
 
   const navigate = useNavigate();
+  useEffect(() => {
+    console.log("Redux Companies:", companies);  // ✅ Verify Redux store contains logos
+}, [companies]);
 
   useEffect(() => {
     const filteredCompany =
@@ -23,8 +26,9 @@ const CompaniesTable = () => {
     setFilterCompany(filteredCompany);
   }, [companies, searchCompanyByText]);
   console.log('Company Data:', companies);
+  console.log('Companies in Redux:', companies);
 
-  
+
   return (
     <div className="table-container">
       <Table className="table-auto w-full">
@@ -42,16 +46,13 @@ const CompaniesTable = () => {
             filterCompany.map((company) => (
               <TableRow key={company?._id}>
                 <TableCell>
-                  <Avatar className="w-10 h-10">
-                    <AvatarImage
-                      src={company?.logo ? company.logo : '/default-logo.png'}
-                      alt={company?.name || 'Company logo'}
-                      onError={(e) => e.target.src = '/default-logo.png'}
-                      className="object-contain w-full h-full"
-                    />
-
-                  </Avatar>
+                  {company.logo ? (
+                    <img src={company.logo} alt={company.name} style={{ width: '50px', height: '50px' }} />
+                  ) : (
+                    "No Logo"
+                  )}
                 </TableCell>
+
                 <TableCell>{company?.name || 'N/A'}</TableCell>
                 <TableCell>{company?.createdAt?.split('T')[0] || 'Unknown'}</TableCell>
                 <TableCell className="text-right cursor-pointer">

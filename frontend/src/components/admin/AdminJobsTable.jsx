@@ -22,10 +22,11 @@ const AdminJobsTable = () => {
         });
         setFilterJobs(filteredJobs);
     }, [allAdminJobs, searchJobByText]);
- 
-   
-console.log('Job Data:', allAdminJobs);
 
+    console.log('Jobs in Redux:', allAdminJobs);
+
+    console.log('Job Data:', allAdminJobs);
+    console.log(allAdminJobs);
     return (
         <div className="table-container">
             <Table className="table-auto w-full">
@@ -41,7 +42,10 @@ console.log('Job Data:', allAdminJobs);
                 <TableBody>
                     {filterJobs?.map((job) => (
                         <TableRow key={job._id}>
-                            <TableCell>{job?.company?.name || 'N/A'}</TableCell>
+                            <TableCell>
+                                {job.company ? job.company.name : "N/A"}
+                            </TableCell>
+
 
                             <TableCell>{job?.title}</TableCell>
                             <TableCell>{job?.createdAt.split("T")[0]}</TableCell>
@@ -54,7 +58,7 @@ console.log('Job Data:', allAdminJobs);
                                             <span>Edit</span>
                                         </div>
                                         <div onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)} className='flex items-center w-fit gap-2 cursor-pointer mt-2'>
-                                            <Eye className='w-4'/>
+                                            <Eye className='w-4' />
                                             <span>Applicants</span>
                                         </div>
                                     </PopoverContent>

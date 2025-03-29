@@ -1,24 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Modify the reducer action to align with the dispatch call
 const companySlice = createSlice({
-    name:"company",
-    initialState:{
-        singleCompany:null,
-        companies:[],
-        searchCompanyByText:"",
+    name: "company",
+    initialState: {
+        singleCompany: null,
+        companies: [],
+        searchCompanyByText: "",
     },
-    reducers:{
-        // actions
-        setSingleCompany:(state,action) => {
+    reducers: {
+        setSingleCompany: (state, action) => {
             state.singleCompany = action.payload;
         },
-        setCompanies:(state,action) => {
+        setAllCompanies: (state, action) => {  // ✅ Match the action with the dispatch
             state.companies = action.payload;
         },
-        setSearchCompanyByText:(state,action) => {
+        setSearchCompanyByText: (state, action) => {
             state.searchCompanyByText = action.payload;
         }
     }
 });
+
 export const {setSingleCompany, setCompanies,setSearchCompanyByText} = companySlice.actions;
 export default companySlice.reducer;
