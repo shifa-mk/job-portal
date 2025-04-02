@@ -40,15 +40,15 @@ const JobDescription = () => {
         if (res.data.success) {
           const job = res.data.job;
           dispatch(setSingleJob(job));
-          
+
           // Check if user has already applied
           const hasApplied = job.applications?.some(
-            app => app.applicant?._id === user?._id
+            (app) => app.applicant?._id === user?._id
           );
-          console.log("Application check:", { 
-            hasApplied, 
+          console.log("Application check:", {
+            hasApplied,
             applications: job.applications,
-            userId: user?._id 
+            userId: user?._id,
           });
           setIsApplied(hasApplied);
         }
@@ -81,31 +81,33 @@ const JobDescription = () => {
       const res = await axios.post(
         `${APPLICATION_API_END_POINT}/apply/${jobId}`,
         { jobId }, // Include jobId in request body
-        { 
+        {
           withCredentials: true,
           headers: {
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+          },
         }
       );
 
       if (res.data.success) {
         setIsApplied(true);
         // Update Redux store with new application
-        dispatch(setSingleJob({
-          ...singleJob,
-          applications: [
-            ...(singleJob.applications || []), 
-            { applicant: { _id: user._id } }
-          ]
-        }));
+        dispatch(
+          setSingleJob({
+            ...singleJob,
+            applications: [
+              ...(singleJob.applications || []),
+              { applicant: { _id: user._id } },
+            ],
+          })
+        );
         toast.success("Successfully applied for the job!");
       }
     } catch (error) {
       console.error("Application error details:", {
         status: error.response?.status,
         data: error.response?.data,
-        message: error.message
+        message: error.message,
       });
       toast.error(error.response?.data?.message || "Failed to apply");
     } finally {
