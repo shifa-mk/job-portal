@@ -84,32 +84,32 @@ export const getJobById = async (req, res) => {
   try {
     const jobId = req.params.id;
     const job = await Job.findById(jobId)
-      .populate('company')
+      .populate("company")
       .populate({
-        path: 'applications',
+        path: "applications",
         populate: {
-          path: 'applicant',
-          select: '_id name email'
-        }
+          path: "applicant",
+          select: "_id name email",
+        },
       })
       .lean();
-      
+
     if (!job) {
       return res.status(404).json({
         message: "Job not found.",
         success: false,
       });
     }
-    return res.status(200).json({ 
+    return res.status(200).json({
       job,
-      success: true 
+      success: true,
     });
   } catch (error) {
     console.error("Error in getJobById:", error);
     return res.status(500).json({
       message: "Error fetching job details",
       success: false,
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -118,7 +118,7 @@ export const getAdminJobs = async (req, res) => {
   try {
     const adminId = req.id;
     const jobs = await Job.find({ created_by: adminId })
-      .populate('company', 'name logo')  // Populate company name and logo
+      .populate("company", "name logo") // Populate company name and logo
       .sort({ createdAt: -1 });
 
     if (!jobs || jobs.length === 0) {
@@ -134,8 +134,7 @@ export const getAdminJobs = async (req, res) => {
     return res.status(500).json({
       message: "Error fetching jobs",
       success: false,
-      error: error.message
+      error: error.message,
     });
   }
 };
-
